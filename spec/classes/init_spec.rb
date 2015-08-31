@@ -11,8 +11,6 @@ describe 'consul' do
       :kernel                 => 'Linux',
     }
   end
-<<<<<<< HEAD
-=======
   let(:pre_condition) {[
     "define firewall($proto='', $port='', $action=''){}",
   ]}
@@ -30,7 +28,6 @@ describe 'consul' do
       it { should contain_firewall('400 - Consul firewall rules udp') }
     end
   end
->>>>>>> 0265874... Manage firewall
   # Installation Stuff
   context 'On an unsupported arch' do
     let(:facts) {{ :architecture => 'bogus' }}
