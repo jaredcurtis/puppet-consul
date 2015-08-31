@@ -51,6 +51,7 @@ class consul (
   $user                  = 'consul',
   $manage_group          = true,
   $extra_groups          = [],
+  $manage_firewall       = false,
   $purge_config_dir      = true,
   $group                 = 'consul',
   $join_wan              = false,
@@ -89,6 +90,7 @@ class consul (
   $real_download_url    = pick($download_url, "${download_url_base}${version}_${os}_${arch}.${download_extension}")
   $real_ui_download_url = pick($ui_download_url, "${ui_download_url_base}${version}_web_ui.${ui_download_extension}")
 
+  validate_bool($manage_firewall)
   validate_bool($purge_config_dir)
   validate_bool($manage_user)
   validate_array($extra_groups)
@@ -159,6 +161,9 @@ class consul (
 
   anchor {'consul_first': }
   ->
+  class { 'consul::firewall':
+    manage => $manage_firewall
+  } ->
   class { 'consul::install': } ->
   class { 'consul::config':
     config_hash => $config_hash_real,
